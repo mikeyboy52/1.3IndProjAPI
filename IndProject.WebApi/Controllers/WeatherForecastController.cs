@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace IndProject.WebApi.Controllers;
 
 [ApiController]
-[Route("WeatherForecasts")]
+[Route("Users")]
 public class WeatherForecastController : ControllerBase
 {
     private readonly WeatherForecastRepository _weatherForecastRepository;
