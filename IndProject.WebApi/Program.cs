@@ -8,10 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-var sqlConnectionString = builder.Configuration["ConnectionString"];
+var sqlConnectionString = builder.Configuration.GetValue<string>("SqlConnectionString");
+var sqlConnectionStringFound = !string.IsNullOrWhiteSpace(sqlConnectionString);
 builder.Services.AddTransient<WeatherForecastRepository, WeatherForecastRepository>(o => new WeatherForecastRepository(sqlConnectionString));
 var app = builder.Build();
 
+app.MapGet("/", () => $"The API is up . Connection string found: {(sqlConnectionStringFound ? "Found" : "Not Found")}");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

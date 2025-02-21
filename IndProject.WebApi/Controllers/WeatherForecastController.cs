@@ -16,54 +16,54 @@ public class WeatherForecastController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet(Name = "ReadWeatherForecasts")]
-    public async Task<ActionResult<IEnumerable<WeatherForecast>>> Get()
+    [HttpGet(Name = "ReadUsers")]
+    public async Task<ActionResult<IEnumerable<User>>> Get()
     {
         var weatherForecasts = await _weatherForecastRepository.ReadAsync();
         return Ok(weatherForecasts);
     }
 
-    [HttpGet("{weatherForecastId}", Name = "ReadWeatherForecast")]
-    public async Task<ActionResult<WeatherForecast>> Get(Guid weatherForecastId)
+    [HttpGet("{Id}", Name = "ReadUser")]
+    public async Task<ActionResult<User>> Get(Guid UserId)
     {
-        var weatherForeCast = await _weatherForecastRepository.ReadAsync(weatherForecastId);
+        var weatherForeCast = await _weatherForecastRepository.ReadAsync(UserId);
         if (weatherForeCast == null)
             return NotFound();
 
         return Ok(weatherForeCast);
     }
 
-    [HttpPost(Name = "CreateWeatherForecast")]
-    public async Task<ActionResult> Add(WeatherForecast weatherForecast)
+    [HttpPost(Name = "CreateUser")]
+    public async Task<ActionResult> Add(User user)
     {
-        weatherForecast.Id = Guid.NewGuid();
+        user.Id = Guid.NewGuid();
 
-        var createdWeatherForecast = await _weatherForecastRepository.InsertAsync(weatherForecast);
+        var createdWeatherForecast = await _weatherForecastRepository.InsertAsync(user);
         return Created();
     }
 
-    [HttpPut("{weatherForecastId}", Name = "UpdateWeatherForecast")]
-    public async Task<ActionResult> Update(Guid weatherForecastId, WeatherForecast newWeatherForeCast)
+    [HttpPut("{Id}", Name = "UpdateUser")]
+    public async Task<ActionResult> Update(Guid Id, User newUser)
     {
-        var existingWeatherForecast = await _weatherForecastRepository.ReadAsync(weatherForecastId);
+        var existingWeatherForecast = await _weatherForecastRepository.ReadAsync(Id);
 
         if (existingWeatherForecast == null)
             return NotFound();
 
-        await _weatherForecastRepository.UpdateAsync(newWeatherForeCast);
+        await _weatherForecastRepository.UpdateAsync(newUser);
 
-        return Ok(newWeatherForeCast);
+        return Ok(newUser);
     }
 
-    [HttpDelete("{weatherForecastId}", Name = "DeleteWeatherForecastByDate")]
-    public async Task<IActionResult> Update(Guid weatherForecastId)
+    [HttpDelete("{Id}", Name = "DeleteUser")]
+    public async Task<IActionResult> Update(Guid Id)
     {
-        var existingWeatherForecast = await _weatherForecastRepository.ReadAsync(weatherForecastId);
+        var existingWeatherForecast = await _weatherForecastRepository.ReadAsync(Id);
 
         if (existingWeatherForecast == null)
             return NotFound();
 
-        await _weatherForecastRepository.DeleteAsync(weatherForecastId);
+        await _weatherForecastRepository.DeleteAsync(Id);
 
         return Ok();
     }

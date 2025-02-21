@@ -12,38 +12,38 @@ namespace IndProject.WebApi.Repositories
             this.sqlConnectionString = sqlConnectionString;
         }
 
-        public async Task<WeatherForecast> InsertAsync(WeatherForecast weatherForecast)
+        public async Task<User> InsertAsync(User user)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                var environmentId = await sqlConnection.ExecuteAsync("INSERT INTO [WeatherForecast] (Id, TemperatureC, Summary) VALUES (@Id, @TemperatureC, @Summary)", weatherForecast);
-                return weatherForecast;
+                var environmentId = await sqlConnection.ExecuteAsync("INSERT INTO [User] (Id, Username, Password) VALUES (@Id, @Username, @Password)", user);
+                return user;
             }
         }
 
-        public async Task<WeatherForecast?> ReadAsync(Guid id)
+        public async Task<User> ReadAsync(Guid id)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                return await sqlConnection.QuerySingleOrDefaultAsync<WeatherForecast>("SELECT * FROM [WeatherForecast] WHERE Id = @Id", new { id });
+                return await sqlConnection.QuerySingleOrDefaultAsync<User>("SELECT * FROM [User] WHERE Id = @Id", new { id });
             }
         }
 
-        public async Task<IEnumerable<WeatherForecast>> ReadAsync()
+        public async Task<IEnumerable<User>> ReadAsync()
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                return await sqlConnection.QueryAsync<WeatherForecast>("SELECT * FROM [WeatherForecast]");
+                return await sqlConnection.QueryAsync<User>("SELECT * FROM [User]");
             }
         }
 
-        public async Task UpdateAsync(WeatherForecast environment)
+        public async Task UpdateAsync(User environment)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                await sqlConnection.ExecuteAsync("UPDATE [WeatherForecast] SET " +
-                                                 "TemperatureC = @TemperatureC, " +
-                                                 "Summary = @Summary"
+                await sqlConnection.ExecuteAsync("UPDATE [User] SET " +
+                                                 "Username = @Username, " +
+                                                 "Password = @Password"
                                                  , environment);
 
             }
@@ -53,7 +53,7 @@ namespace IndProject.WebApi.Repositories
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                await sqlConnection.ExecuteAsync("DELETE FROM [WeatherForecast] WHERE Id = @Id", new { id });
+                await sqlConnection.ExecuteAsync("DELETE FROM [User] WHERE Id = @Id", new { id });
             }
         }
 
