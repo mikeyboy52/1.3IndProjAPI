@@ -19,6 +19,11 @@ builder.Services
     {
         options.User.RequireUniqueEmail = true;
 
+        options.Password.RequiredLength = 12;
+        options.Password.RequireDigit = true;
+        options.Password.RequireLowercase = true;
+        options.Password.RequireUppercase = true;
+
     })
     .AddDapperStores(options =>
     {
