@@ -1,18 +1,19 @@
 ﻿using Dapper;
+using IndProject.WebApi.Models;
 using Microsoft.Data.SqlClient;
 
 namespace IndProject.WebApi.Repositories
 {
-    public class WeatherForecastRepository
+    public class UserRepository
     {
         private readonly string sqlConnectionString;
 
-        public WeatherForecastRepository(string sqlConnectionString)
+        public UserRepository(string sqlConnectionString)
         {
             this.sqlConnectionString = sqlConnectionString;
         }
 
-        public async Task<User> InsertAsync(User user)
+        public async Task<User> InsertUser(User user)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
@@ -21,7 +22,7 @@ namespace IndProject.WebApi.Repositories
             }
         }
 
-        public async Task<User> ReadAsync(Guid id)
+        public async Task<User> ReadUser(Guid id)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
@@ -29,7 +30,7 @@ namespace IndProject.WebApi.Repositories
             }
         }
 
-        public async Task<IEnumerable<User>> ReadAsync()
+        public async Task<IEnumerable<User>> ReadUsers()
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
@@ -37,7 +38,7 @@ namespace IndProject.WebApi.Repositories
             }
         }
 
-        public async Task UpdateAsync(User environment)
+        public async Task UpdateUser(User environment)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
@@ -49,7 +50,7 @@ namespace IndProject.WebApi.Repositories
             }
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task DeleteUser(Guid id)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
