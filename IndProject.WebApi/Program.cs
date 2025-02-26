@@ -18,7 +18,6 @@ builder.Services.AddSwaggerGen();
 var sqlConnectionString = builder.Configuration.GetValue<string>("SqlConnectionString");
 var sqlConnectionStringFound = !string.IsNullOrWhiteSpace(sqlConnectionString);
 builder.Services.AddTransient<EnviromentRepository, EnviromentRepository>(o => new EnviromentRepository(sqlConnectionString));
-builder.Services.AddTransient<UserRepository, UserRepository>(o => new UserRepository(sqlConnectionString));
 builder.Services.AddTransient<ObjectRepository, ObjectRepository>(o => new ObjectRepository(sqlConnectionString));
 builder.Services.AddAuthorization();
 builder.Services
