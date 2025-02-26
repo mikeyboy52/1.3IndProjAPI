@@ -1,5 +1,6 @@
 using IndProject.WebApi.Models;
 using IndProject.WebApi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IndProject.WebApi.Controllers;
@@ -18,6 +19,7 @@ public class ObjectController : ControllerBase
     }
 
     [HttpGet(Name = "ReadObjects")]
+    [Authorize]
     public async Task<ActionResult<IEnumerable<Object2D>>> Get()
     {
         var enviroments = await _objectRepository.ReadObjects();
@@ -35,6 +37,7 @@ public class ObjectController : ControllerBase
     }
 
     [HttpPost(Name = "CreateObject")]
+    [Authorize]
     public async Task<ActionResult> Add(Object2D object2D)
     {
         object2D.Id = Guid.NewGuid();
@@ -44,6 +47,7 @@ public class ObjectController : ControllerBase
     }
 
     [HttpPut("{Id}", Name = "UpdateObject")]
+    [Authorize]
     public async Task<ActionResult> Update(Guid Id, Object2D newObject)
     {
         var existingWeatherForecast = await _objectRepository.ReadObject(Id);
@@ -57,6 +61,7 @@ public class ObjectController : ControllerBase
     }
 
     [HttpDelete("{Id}", Name = "DeleteObject")]
+    [Authorize]
     public async Task<IActionResult> Update(Guid Id)
     {
         var existingWeatherForecast = await _objectRepository.ReadObject(Id);

@@ -17,16 +17,16 @@ namespace IndProject.WebApi.Repositories
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                var environmentId = await sqlConnection.ExecuteAsync("INSERT INTO [User] (Id, Username, Password) VALUES (@Id, @Username, @Password)", user);
+                var environmentId = await sqlConnection.ExecuteAsync("INSERT INTO [User] (Username, Password) VALUES (@Username, @Password)", user);
                 return user;
             }
         }
 
-        public async Task<User> ReadUser(Guid id)
+        public async Task<User> ReadUser(string Username)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                return await sqlConnection.QuerySingleOrDefaultAsync<User>("SELECT * FROM [User] WHERE Id = @Id", new { id });
+                return await sqlConnection.QuerySingleOrDefaultAsync<User>("SELECT * FROM [User] WHERE Username = @Username", new { Username });
             }
         }
 
@@ -50,11 +50,11 @@ namespace IndProject.WebApi.Repositories
             }
         }
 
-        public async Task DeleteUser(Guid id)
+        public async Task DeleteUser(string Username)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                await sqlConnection.ExecuteAsync("DELETE FROM [User] WHERE Id = @Id", new { id });
+                await sqlConnection.ExecuteAsync("DELETE FROM [User] WHERE Username = @Username", new { Username });
             }
         }
 

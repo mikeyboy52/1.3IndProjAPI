@@ -1,11 +1,12 @@
 using IndProject.WebApi.Models;
 using IndProject.WebApi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IndProject.WebApi.Controllers;
 
 [ApiController]
-[Route("Users")]
+[Route("[controller]")]
 public class EnviromentController : ControllerBase
 {
     private readonly EnviromentRepository _enviromentRepository;
@@ -17,14 +18,16 @@ public class EnviromentController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet(Name = "ReadUsers")]
+    [HttpGet(Name = "ReadEnviroments")]
+    [Authorize]
     public async Task<ActionResult<IEnumerable<Enviroment>>> Get()
     {
         var enviroments = await _enviromentRepository.ReadEnviroments();
         return Ok(enviroments);
     }
 
-    [HttpGet("{Id}", Name = "ReadUser")]
+    [HttpGet("{Id}", Name = "ReadEnviroment")]
+    [Authorize]
     public async Task<ActionResult<Enviroment>> Get(Guid Id)
     {
         var enviroment = await _enviromentRepository.ReadEnviroment(Id);
@@ -34,7 +37,8 @@ public class EnviromentController : ControllerBase
         return Ok(enviroment);
     }
 
-    [HttpPost(Name = "CreateUser")]
+    [HttpPost(Name = "CreateEnviroment")]
+    [Authorize]
     public async Task<ActionResult> Add(Enviroment Enviroment)
     {
         Enviroment.Id = Guid.NewGuid();
@@ -43,12 +47,13 @@ public class EnviromentController : ControllerBase
         return Created();
     }
 
-    [HttpPut("{Id}", Name = "UpdateUser")]
+    [HttpPut("{Id}", Name = "UpdateEnviroment")]
+    [Authorize]
     public async Task<ActionResult> Update(Guid Id, Enviroment newEnviroment)
     {
-        var existingWeatherForecast = await _enviromentRepository.ReadEnviroment(Id);
+        var existingEnviroment = await _enviromentRepository.ReadEnviroment(Id);
 
-        if (existingWeatherForecast == null)
+        if (existingEnviroment == null)
             return NotFound();
 
         await _enviromentRepository.UpdateEnviroment(newEnviroment);
@@ -56,12 +61,13 @@ public class EnviromentController : ControllerBase
         return Ok(newEnviroment);
     }
 
-    [HttpDelete("{Id}", Name = "DeleteUser")]
+    [HttpDelete("{Id}", Name = "DeleteEnviroment")]
+    [Authorize]
     public async Task<IActionResult> Update(Guid Id)
     {
-        var existingWeatherForecast = await _enviromentRepository.ReadEnviroment(Id);
+        var existingEnviroment = await _enviromentRepository.ReadEnviroment(Id);
 
-        if (existingWeatherForecast == null)
+        if (existingEnviroment == null)
             return NotFound();
 
         await _enviromentRepository.DeleteEnviroment(Id);
