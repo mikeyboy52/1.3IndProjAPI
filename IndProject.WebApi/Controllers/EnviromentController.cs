@@ -74,19 +74,4 @@ public class EnviromentController : ControllerBase
 
         return Ok();
     }
-    [HttpPost("test")]
-    public IActionResult TestJson([FromBody] Enviroment enviroment)
-    {
-        if (enviroment == null)
-        {
-            return BadRequest("Geen JSON ontvangen!");
-        }
-
-        return Ok(new
-        {
-            Message = "JSON ontvangen!",
-            Name = enviroment.Name,
-            Username = enviroment.Email
-        });
-    }
 }
