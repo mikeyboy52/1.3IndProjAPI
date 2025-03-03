@@ -39,7 +39,7 @@ public class EnviromentController : ControllerBase
 
     [HttpPost(Name = "CreateEnviroment")]
     [Authorize]
-    public async Task<ActionResult> Add(Enviroment Enviroment)
+    public async Task<ActionResult> Add([FromBody] Enviroment Enviroment)
     {
         Enviroment.Id = Guid.NewGuid();
 
@@ -74,5 +74,19 @@ public class EnviromentController : ControllerBase
 
         return Ok();
     }
+    [HttpPost("test")]
+    public IActionResult TestJson([FromBody] Enviroment enviroment)
+    {
+        if (enviroment == null)
+        {
+            return BadRequest("Geen JSON ontvangen!");
+        }
 
+        return Ok(new
+        {
+            Message = "JSON ontvangen!",
+            Name = enviroment.Name,
+            Username = enviroment.Email
+        });
+    }
 }

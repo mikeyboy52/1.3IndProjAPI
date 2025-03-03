@@ -38,7 +38,7 @@ public class ObjectController : ControllerBase
 
     [HttpPost(Name = "CreateObject")]
     [Authorize]
-    public async Task<ActionResult> Add(Object2D object2D)
+    public async Task<ActionResult> Add([FromBody] Object2D object2D)
     {
         object2D.Id = Guid.NewGuid();
 

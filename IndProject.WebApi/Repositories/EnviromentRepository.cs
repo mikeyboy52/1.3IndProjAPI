@@ -17,7 +17,15 @@ namespace IndProject.WebApi.Repositories
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                var environmentId = await sqlConnection.ExecuteAsync("INSERT INTO [Enviroment2D] (Id, Name, UserId, MaxHeight, MaxLength) VALUES (@Id, @Name, @UserId, @MaxHeight, @MaxLength)", enviroment);
+                var parameters = new
+                {
+                    Id = enviroment.Id,
+                    Name = enviroment.Name,
+                    Email = enviroment.Email,
+                    MaxHeight = enviroment.MaxHeight,
+                    MaxLength = enviroment.MaxLength
+                };
+                var environmentId = await sqlConnection.ExecuteAsync("INSERT INTO [Enviroment2D] (Id, Name, Email, MaxHeight, MaxLength) VALUES (@Id, @Name, @Email, @MaxHeight, @MaxLength)", parameters);
                 return enviroment;
             }
         }
