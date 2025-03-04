@@ -2,9 +2,9 @@
 
 namespace IndProject.WebApi.Models
 {
-    public class Email
+    public class email
     {
         [Required]
-        public string email;
+        public string Email;
     }
 }

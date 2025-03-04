@@ -30,23 +30,19 @@ namespace IndProject.WebApi.Repositories
             }
         }
 
-        public async Task<Enviroment> ReadEnviroment(Guid id)
+        public async Task<IEnumerable<Enviroment>> ReadEnviroment(string email)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                return await sqlConnection.QuerySingleOrDefaultAsync<Enviroment>("SELECT * FROM [Enviroment2D] WHERE Id = @Id", new { id });
+                return await sqlConnection.QueryAsync<Enviroment>("SELECT * FROM [Enviroment2D] WHERE Email = @Email", new { email });
             }
         }
 
-        public async Task<IEnumerable<Enviroment>> ReadEnviroments(Email email)
+        public async Task<IEnumerable<Enviroment>> ReadEnviroments()
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                var parameters = new
-                {
-                    Email = email.email,
-                };
-                return await sqlConnection.QueryAsync<Enviroment>("SELECT * FROM [Enviroment2D] WHERE Email = @Email", parameters);
+                return await sqlConnection.QueryAsync<Enviroment>("SELECT * FROM [Enviroment2D]");
             }
         }
 

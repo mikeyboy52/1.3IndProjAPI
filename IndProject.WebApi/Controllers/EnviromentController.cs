@@ -18,27 +18,20 @@ public class EnviromentController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet(Name = "ReadEnviromentsForUser")]
+
+    [HttpGet(Name = "ReadEnviroments")]
     [Authorize]
-    public async Task<ActionResult<IEnumerable<Enviroment>>> Get([FromBody] Email Email)
+    public async Task<ActionResult<IEnumerable<Enviroment>>> Get()
     {
-        var enviroments = await _enviromentRepository.ReadEnviroments(Email);
+        var enviroments = await _enviromentRepository.ReadEnviroments();
         return Ok(enviroments);
     }
 
-    //[HttpGet(Name = "ReadEnviroments")]
-    //[Authorize]
-    //public async Task<ActionResult<IEnumerable<Enviroment>>> Get()
-    //{
-    //    var enviroments = await _enviromentRepository.ReadEnviroments();
-    //    return Ok(enviroments);
-    //}
-
-    [HttpGet("{Id}", Name = "ReadEnviroment")]
+    [HttpGet("{email}", Name = "ReadEnviroment")]
     [Authorize]
-    public async Task<ActionResult<Enviroment>> Get(Guid Id)
+    public async Task<ActionResult<Enviroment>> Get(string email)
     {
-        var enviroment = await _enviromentRepository.ReadEnviroment(Id);
+        var enviroment = await _enviromentRepository.ReadEnviroment(email);
         if (enviroment == null)
             return NotFound();
 
@@ -55,31 +48,31 @@ public class EnviromentController : ControllerBase
         return Created();
     }
 
-    [HttpPut("{Id}", Name = "UpdateEnviroment")]
-    [Authorize]
-    public async Task<ActionResult> Update(Guid Id, Enviroment newEnviroment)
-    {
-        var existingEnviroment = await _enviromentRepository.ReadEnviroment(Id);
+    //[HttpPut("{Email}", Name = "UpdateEnviroment")]
+    //[Authorize]
+    //public async Task<ActionResult> Update(Guid Id, Enviroment newEnviroment)
+    //{
+    //    var existingEnviroment = await _enviromentRepository.ReadEnviroment(Id);
 
-        if (existingEnviroment == null)
-            return NotFound();
+    //    if (existingEnviroment == null)
+    //        return NotFound();
 
-        await _enviromentRepository.UpdateEnviroment(newEnviroment);
+    //    await _enviromentRepository.UpdateEnviroment(newEnviroment);
 
-        return Ok(newEnviroment);
-    }
+    //    return Ok(newEnviroment);
+    //}
 
-    [HttpDelete("{Id}", Name = "DeleteEnviroment")]
-    [Authorize]
-    public async Task<IActionResult> Update(Guid Id)
-    {
-        var existingEnviroment = await _enviromentRepository.ReadEnviroment(Id);
+    //[HttpDelete("{Id}", Name = "DeleteEnviroment")]
+    //[Authorize]
+    //public async Task<IActionResult> Update(Guid Id)
+    //{
+    //    var existingEnviroment = await _enviromentRepository.ReadEnviroment(Id);
 
-        if (existingEnviroment == null)
-            return NotFound();
+    //    if (existingEnviroment == null)
+    //        return NotFound();
 
-        await _enviromentRepository.DeleteEnviroment(Id);
+    //    await _enviromentRepository.DeleteEnviroment(Id);
 
-        return Ok();
-    }
+    //    return Ok();
+    //}
 }
