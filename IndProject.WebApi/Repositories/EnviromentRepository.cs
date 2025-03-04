@@ -38,11 +38,11 @@ namespace IndProject.WebApi.Repositories
             }
         }
 
-        public async Task<IEnumerable<Enviroment>> ReadEnviroments()
+        public async Task<IEnumerable<Enviroment>> ReadEnviroments(string email)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                return await sqlConnection.QueryAsync<Enviroment>("SELECT * FROM [Enviroment2D]");
+                return await sqlConnection.QueryAsync<Enviroment>("SELECT * FROM [Enviroment2D] WHERE Email = @Email", new { email });
             }
         }
 

@@ -18,13 +18,21 @@ public class EnviromentController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet(Name = "ReadEnviroments")]
+    [HttpGet(Name = "ReadEnviromentsForUser")]
     [Authorize]
-    public async Task<ActionResult<IEnumerable<Enviroment>>> Get()
+    public async Task<ActionResult<IEnumerable<Enviroment>>> Get([FromBody] string Email)
     {
-        var enviroments = await _enviromentRepository.ReadEnviroments();
+        var enviroments = await _enviromentRepository.ReadEnviroments(Email);
         return Ok(enviroments);
     }
+
+    //[HttpGet(Name = "ReadEnviroments")]
+    //[Authorize]
+    //public async Task<ActionResult<IEnumerable<Enviroment>>> Get()
+    //{
+    //    var enviroments = await _enviromentRepository.ReadEnviroments();
+    //    return Ok(enviroments);
+    //}
 
     [HttpGet("{Id}", Name = "ReadEnviroment")]
     [Authorize]
