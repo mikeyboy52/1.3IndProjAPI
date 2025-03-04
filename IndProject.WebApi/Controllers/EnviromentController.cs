@@ -20,7 +20,7 @@ public class EnviromentController : ControllerBase
 
     [HttpGet(Name = "ReadEnviromentsForUser")]
     [Authorize]
-    public async Task<ActionResult<IEnumerable<Enviroment>>> Get([FromBody] string Email)
+    public async Task<ActionResult<IEnumerable<Enviroment>>> Get([FromBody] Email Email)
     {
         var enviroments = await _enviromentRepository.ReadEnviroments(Email);
         return Ok(enviroments);
