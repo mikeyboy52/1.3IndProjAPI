@@ -42,7 +42,11 @@ namespace IndProject.WebApi.Repositories
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                return await sqlConnection.QueryAsync<Enviroment>("SELECT * FROM [Enviroment2D] WHERE Email = @Email", new { email.email });
+                var parameters = new
+                {
+                    Email = email.email,
+                };
+                return await sqlConnection.QueryAsync<Enviroment>("SELECT * FROM [Enviroment2D] WHERE Email = @Email", parameters);
             }
         }
 
