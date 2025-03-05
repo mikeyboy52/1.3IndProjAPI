@@ -18,11 +18,22 @@ public class EnviromentController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet(Name = "ReadEnviroment")]
+    [HttpGet("{Email}", Name = "ReadEnviromenstFromEmail")]
     [Authorize]
-    public async Task<ActionResult<Enviroment>> Get([FromQuery] string email)
+    public async Task<ActionResult<Enviroment>> Get(string email)
     {
         var enviroment = await _enviromentRepository.ReadEnviroment(email);
+        if (enviroment == null)
+            return NotFound();
+
+        return Ok(enviroment);
+    }
+
+    [HttpGet(Name = "ReadEnviromentFromNameFromEmail")]
+    [Authorize]
+    public async Task<ActionResult<Enviroment>> Get([FromQuery] string email, [FromQuery] string name)
+    {
+        var enviroment = await _enviromentRepository.ReadEnviroment(email, name);
         if (enviroment == null)
             return NotFound();
 
@@ -41,7 +52,7 @@ public class EnviromentController : ControllerBase
 
     [HttpPut("{Id}", Name = "UpdateEnviroment")]
     [Authorize]
-    public async Task<ActionResult> Update(Guid Id, Enviroment newEnviroment)
+    public async Task<ActionResult> Update(Guid Id, [FromBody] Enviroment newEnviroment)
     {
         var existingEnviroment = await _enviromentRepository.ReadEnviroment(Id);
 
@@ -60,10 +71,13 @@ public class EnviromentController : ControllerBase
         var existingEnviroment = await _enviromentRepository.ReadEnviroment(Id);
 
         if (existingEnviroment == null)
-            return NotFound();
-
-        await _enviromentRepository.DeleteEnviroment(Id);
-
-        return Ok();
+        {
+            return NotFound(); 
+        }
+            else
+            {
+                await _enviromentRepository.DeleteEnviroment(Id);
+                return Ok();
+            }
     }
 }

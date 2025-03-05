@@ -37,11 +37,24 @@ namespace IndProject.WebApi.Repositories
                 return await sqlConnection.QueryAsync<Enviroment>("SELECT * FROM [Enviroment2D] WHERE Email = @Email", new { email });
             }
         }
-        public async Task<IEnumerable<Enviroment>> ReadEnviroment(Guid Id)
+        public async Task<Enviroment> ReadEnviroment(string email, string name)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                return await sqlConnection.QueryAsync<Enviroment>("SELECT * FROM [Enviroment2D] WHERE Id = @Id", new { Id });
+                var parameters = new
+                {
+                    Email = email,
+                    Name = name
+                };
+                return await sqlConnection.QuerySingleOrDefaultAsync<Enviroment>("SELECT * FROM [Enviroment2D] WHERE Email = @Email AND Name = @Name", parameters);
+            }
+        }
+
+        public async Task<Enviroment> ReadEnviroment(Guid Id)
+        {
+            using (var sqlConnection = new SqlConnection(sqlConnectionString))
+            {
+                return await sqlConnection.QuerySingleOrDefaultAsync<Enviroment>("SELECT * FROM [Enviroment2D] WHERE Id = @Id", new { Id });
             }
         }
 
@@ -53,15 +66,23 @@ namespace IndProject.WebApi.Repositories
             }
         }
 
-        public async Task UpdateEnviroment(Enviroment environment)
+        public async Task UpdateEnviroment(Enviroment enviroment)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
+                var parameters = new
+                {
+                    Id = enviroment.Id,
+                    Name = enviroment.Name,
+                    MaxHeight = enviroment.MaxHeight,
+                    MaxLength = enviroment.MaxLength
+                };
                 await sqlConnection.ExecuteAsync("UPDATE [Enviroment2D] SET " +
                                                  "Name = @Name, " +
                                                  "MaxHeight = @MaxHeight, " +
-                                                 "MaxLength = @MaxLength"
-                                                 , environment);
+                                                 "MaxLength = @MaxLength" +
+                                                 "WHERE Id = @Id"
+                                                 , enviroment);
 
             }
         }
