@@ -68,6 +68,7 @@ public class EnviromentController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Update(Guid Id)
     {
+        Console.WriteLine(Id);
         var existingEnviroment = await _enviromentRepository.ReadEnviroment(Id);
 
         if (existingEnviroment == null)
