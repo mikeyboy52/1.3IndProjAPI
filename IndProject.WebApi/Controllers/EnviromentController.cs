@@ -27,9 +27,9 @@ public class EnviromentController : ControllerBase
         return Ok(enviroments);
     }
 
-    [HttpGet("{email}", Name = "ReadEnviroment")]
+    [HttpGet(Name = "ReadEnviroment")]
     [Authorize]
-    public async Task<ActionResult<Enviroment>> Get(string email)
+    public async Task<ActionResult<Enviroment>> Get([FromQuery] string email)
     {
         var enviroment = await _enviromentRepository.ReadEnviroment(email);
         if (enviroment == null)
