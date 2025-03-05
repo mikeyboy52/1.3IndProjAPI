@@ -19,13 +19,13 @@ public class EnviromentController : ControllerBase
     }
 
 
-    [HttpGet(Name = "ReadEnviroments")]
-    [Authorize]
-    public async Task<ActionResult<IEnumerable<Enviroment>>> Get()
-    {
-        var enviroments = await _enviromentRepository.ReadEnviroments();
-        return Ok(enviroments);
-    }
+    //[HttpGet(Name = "ReadEnviroments")]
+    //[Authorize]
+    //public async Task<ActionResult<IEnumerable<Enviroment>>> Get()
+    //{
+    //    var enviroments = await _enviromentRepository.ReadEnviroments();
+    //    return Ok(enviroments);
+    //}
 
     [HttpGet(Name = "ReadEnviroment")]
     [Authorize]
