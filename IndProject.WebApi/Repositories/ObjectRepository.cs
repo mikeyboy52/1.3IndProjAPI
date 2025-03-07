@@ -4,21 +4,34 @@ using Microsoft.Data.SqlClient;
 
 namespace IndProject.WebApi.Repositories
 {
-    public class ObjectRepository
+    public class Object2DRepository
     {
         private readonly string sqlConnectionString;
 
-        public ObjectRepository(string sqlConnectionString)
+        public Object2DRepository(string sqlConnectionString)
         {
             this.sqlConnectionString = sqlConnectionString;
         }
 
-        public async Task<Object2D> InsertObject(Object2D object2d)
+        public async Task<Object2D> InsertObject(Object2D object2D)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                var enviromentId = await sqlConnection.ExecuteAsync("INSERT INTO [Object2D] (Id, PrefabId, PositionX, PositionY, ScaleX, ScaleY, RotationZ, SortingLayer) VALUES (@Id, @PrefabId, @PositionX, @PositionY, @ScaleX, @ScaleY, @RotationZ, @SortingLayer)", object2d);
-                return object2d;
+                Console.WriteLine(object2D.EnviromentId);
+                var parameters = new
+                {
+                    Id = object2D.Id,
+                    EnviromentId = object2D.EnviromentId,
+                    PrefabId = object2D.PrefabId,
+                    PositionX = object2D.PositionX,
+                    PositionY = object2D.PositionY,
+                    ScaleX = object2D.ScaleX,
+                    ScaleY = object2D.ScaleY,
+                    RotationZ = object2D.RotationZ,
+                    SortingLayer = object2D.SortingLayer
+                };
+                var enviromentId = await sqlConnection.ExecuteAsync("INSERT INTO [Object2D] (Id, EnviromentId, PrefabId, PositionX, PositionY, ScaleX, ScaleY, RotationZ, SortingLayer) VALUES (@Id, @EnviromentId, @PrefabId, @PositionX, @PositionY, @ScaleX, @ScaleY, @RotationZ, @SortingLayer)", parameters);
+                return object2D;
             }
         }
 
@@ -27,6 +40,14 @@ namespace IndProject.WebApi.Repositories
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
                 return await sqlConnection.QuerySingleOrDefaultAsync<Object2D>("SELECT * FROM [Object2D] WHERE Id = @Id", new { id });
+            }
+        }
+
+        public async Task<Object2D> ReadObjectFromEnviroment(Guid EnviromentId)
+        {
+            using (var sqlConnection = new SqlConnection(sqlConnectionString))
+            {
+                return await sqlConnection.QuerySingleOrDefaultAsync<Object2D>("SELECT * FROM [Object2D] WHERE EnviromentId = @EnviromentId", new { EnviromentId });
             }
         }
 

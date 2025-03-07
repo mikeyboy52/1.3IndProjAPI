@@ -2,17 +2,18 @@ using IndProject.WebApi.Models;
 using IndProject.WebApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace IndProject.WebApi.Controllers;
 
 [ApiController]
-[Route("Objects")]
-public class ObjectController : ControllerBase
+[Route("[controller]")]
+public class Object2DController : ControllerBase
 {
-    private readonly ObjectRepository _objectRepository;
-    private readonly ILogger<ObjectController> _logger;
+    private readonly Object2DRepository _objectRepository;
+    private readonly ILogger<Object2DController> _logger;
 
-    public ObjectController(ObjectRepository objectRepository, ILogger<ObjectController> logger)
+    public Object2DController(Object2DRepository objectRepository, ILogger<Object2DController> logger)
     {
         _objectRepository = objectRepository;
         _logger = logger;
@@ -26,29 +27,39 @@ public class ObjectController : ControllerBase
         return Ok(enviroments);
     }
 
-    [HttpGet("{Id}", Name = "ReadObject")]
-    public async Task<ActionResult<Object2D>> Get(Guid Id)
+    [HttpGet("{EnviromentId}", Name = "ReadObjectsFromEnviroment")]
+    [Authorize]
+    public async Task<ActionResult<Object2D>> Get(Guid EnviromentId)
     {
-        var Object = await _objectRepository.ReadObject(Id);
-        if (Object == null)
+        var enviroment = await _objectRepository.ReadObjectFromEnviroment(EnviromentId);
+        if (enviroment == null)
             return NotFound();
 
-        return Ok(Object);
+        return Ok(enviroment);
     }
+
+    //[HttpGet("{Id}", Name = "ReadObject")]
+    //public async Task<ActionResult<Object2D>> Get(Guid Id)
+    //{
+    //    var Object = await _objectRepository.ReadObject(Id);
+    //    if (Object == null)
+    //        return NotFound();
+
+    //    return Ok(Object);
+    //}
 
     [HttpPost(Name = "CreateObject")]
     [Authorize]
     public async Task<ActionResult> Add([FromBody] Object2D object2D)
     {
         object2D.Id = Guid.NewGuid();
-
         var objects = await _objectRepository.InsertObject(object2D);
         return Created();
     }
 
     [HttpPut("{Id}", Name = "UpdateObject")]
     [Authorize]
-    public async Task<ActionResult> Update(Guid Id, Object2D newObject)
+    public async Task<ActionResult> Update(Guid Id, [FromBody] Object2D newObject)
     {
         var existingWeatherForecast = await _objectRepository.ReadObject(Id);
 
