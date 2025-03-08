@@ -80,7 +80,7 @@ namespace IndProject.WebApi.Repositories
                 await sqlConnection.ExecuteAsync("UPDATE [Enviroment2D] SET " +
                                                  "Name = @Name, " +
                                                  "MaxHeight = @MaxHeight, " +
-                                                 "MaxLength = @MaxLength" +
+                                                 "MaxLength = @MaxLength " +
                                                  "WHERE Id = @Id"
                                                  , enviroment);
 
