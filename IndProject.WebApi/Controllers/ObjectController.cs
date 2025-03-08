@@ -61,10 +61,13 @@ public class Object2DController : ControllerBase
     [Authorize]
     public async Task<ActionResult> Update(Guid Id, [FromBody] Object2D newObject)
     {
-        var existingWeatherForecast = await _objectRepository.ReadObject(Id);
+        var existingObject = await _objectRepository.ReadObject(Id);
 
-        if (existingWeatherForecast == null)
+        if (existingObject == null)
+        {
             return NotFound();
+        }
+            
 
         await _objectRepository.UpdateObject(newObject);
 
