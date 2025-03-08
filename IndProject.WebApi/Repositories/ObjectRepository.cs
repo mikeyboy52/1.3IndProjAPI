@@ -43,11 +43,11 @@ namespace IndProject.WebApi.Repositories
             }
         }
 
-        public async Task<Object2D> ReadObjectFromEnviroment(Guid EnviromentId)
+        public async Task<IEnumerable<Object2D>> ReadObjectFromEnviroment(Guid EnviromentId)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                return await sqlConnection.QuerySingleOrDefaultAsync<Object2D>("SELECT * FROM [Object2D] WHERE EnviromentId = @EnviromentId", new { EnviromentId });
+                return await sqlConnection.QueryAsync<Object2D>("SELECT * FROM [Object2D] WHERE EnviromentId = @EnviromentId", new { EnviromentId });
             }
         }
 
