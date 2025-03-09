@@ -18,4 +18,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\IndProject.WebApi.Tests\IndProject.WebApi.Tests.csproj" />
+  </ItemGroup>
+
 </Project>
