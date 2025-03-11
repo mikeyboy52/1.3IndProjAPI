@@ -30,18 +30,6 @@ namespace IndProject.WebApi.Models
         [Required]
         [JsonPropertyName("SortingLayer")]
         public string SortingLayer { get; set; }
-        //public Object2D(Guid id, Guid enviromentId, int prefabId, float positionX, float positionY, float scaleX, float scaleY, float rotationZ, string sortinglayer)
-        //{
-        //    Id = id;
-        //    EnviromentId = enviromentId;
-        //    PrefabId = prefabId;
-        //    PositionX = positionX;
-        //    PositionY = positionY;
-        //    ScaleX = scaleX;
-        //    ScaleY = scaleY;
-        //    RotationZ = rotationZ;
-        //    SortingLayer = sortinglayer;
-        //}
     }
 
 }

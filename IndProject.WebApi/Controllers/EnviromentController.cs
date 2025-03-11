@@ -1,3 +1,4 @@
+using IndProject.WebApi.Interfaces;
 using IndProject.WebApi.Models;
 using IndProject.WebApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
@@ -9,10 +10,10 @@ namespace IndProject.WebApi.Controllers;
 [Route("[controller]")]
 public class EnviromentController : ControllerBase
 {
-    private readonly EnviromentRepository _enviromentRepository;
+    private readonly IEnviromentRepository _enviromentRepository;
     private readonly ILogger<EnviromentController> _logger;
 
-    public EnviromentController(EnviromentRepository enviromentRepository, ILogger<EnviromentController> logger)
+    public EnviromentController(IEnviromentRepository enviromentRepository, ILogger<EnviromentController> logger)
     {
         _enviromentRepository = enviromentRepository;
         _logger = logger;

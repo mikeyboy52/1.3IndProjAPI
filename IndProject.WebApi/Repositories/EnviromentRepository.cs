@@ -1,10 +1,11 @@
 ﻿using Dapper;
+using IndProject.WebApi.Interfaces;
 using IndProject.WebApi.Models;
 using Microsoft.Data.SqlClient;
 
 namespace IndProject.WebApi.Repositories
 {
-    public class EnviromentRepository
+    public class EnviromentRepository : IEnviromentRepository
     {
         private readonly string sqlConnectionString;
 
@@ -55,14 +56,6 @@ namespace IndProject.WebApi.Repositories
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
                 return await sqlConnection.QuerySingleOrDefaultAsync<Enviroment>("SELECT * FROM [Enviroment2D] WHERE Id = @Id", new { Id });
-            }
-        }
-
-        public async Task<IEnumerable<Enviroment>> ReadEnviroments()
-        {
-            using (var sqlConnection = new SqlConnection(sqlConnectionString))
-            {
-                return await sqlConnection.QueryAsync<Enviroment>("SELECT * FROM [Enviroment2D]");
             }
         }
 
