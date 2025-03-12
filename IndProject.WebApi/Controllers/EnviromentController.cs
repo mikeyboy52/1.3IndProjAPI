@@ -23,6 +23,7 @@ public class EnviromentController : ControllerBase
     [Authorize]
     public async Task<ActionResult<Enviroment>> Get(string email)
     {
+        // verkrijgen van Enviroments voor een gebruiker via de email
         var enviroment = await _enviromentRepository.ReadEnviroment(email);
         if (enviroment == null)
             return NotFound();
@@ -34,6 +35,7 @@ public class EnviromentController : ControllerBase
     [Authorize]
     public async Task<ActionResult<Enviroment>> Get([FromQuery] string email, [FromQuery] string name)
     {
+        // verkrijgen van enviroment via naam, van 1 gebruiker
         var enviroment = await _enviromentRepository.ReadEnviroment(email, name);
         if (enviroment == null)
             return NotFound();
@@ -45,6 +47,7 @@ public class EnviromentController : ControllerBase
     [Authorize]
     public async Task<ActionResult> Add([FromBody] Enviroment Enviroment)
     {
+        // maken van een nieuw enviroment
         Enviroment.Id = Guid.NewGuid();
 
         var enviroment = await _enviromentRepository.InsertEnviroment(Enviroment);
@@ -55,6 +58,7 @@ public class EnviromentController : ControllerBase
     [Authorize]
     public async Task<ActionResult> Update(Guid Id, [FromBody] Enviroment newEnviroment)
     {
+        // updaten van een enviroment vanuit enviromentId
         var existingEnviroment = await _enviromentRepository.ReadEnviroment(Id);
 
         if (existingEnviroment == null)
@@ -69,6 +73,7 @@ public class EnviromentController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Update(Guid Id)
     {
+        // deleten van een enviroment vanuit enviromentId
         Console.WriteLine(Id);
         var existingEnviroment = await _enviromentRepository.ReadEnviroment(Id);
 

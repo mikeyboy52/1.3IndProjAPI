@@ -24,6 +24,7 @@ public class Object2DController : ControllerBase
     [Authorize]
     public async Task<ActionResult<Object2D>> Get(Guid EnviromentId)
     {
+        // haalt de objecten van een enviroment op
         var enviroment = await _objectRepository.ReadObjectFromEnviroment(EnviromentId);
         if (enviroment == null)
             return NotFound();
@@ -35,6 +36,7 @@ public class Object2DController : ControllerBase
     [Authorize]
     public async Task<ActionResult> Add([FromBody] Object2D object2D)
     {
+        // maakt een nieuw object aan
         object2D.Id = Guid.NewGuid();
         var objects = await _objectRepository.InsertObject(object2D);
         return Created();

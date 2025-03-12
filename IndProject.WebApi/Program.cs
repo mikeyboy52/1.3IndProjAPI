@@ -1,4 +1,5 @@
 using IndProject.WebApi.Controllers;
+using IndProject.WebApi.Interfaces;
 using IndProject.WebApi.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -22,8 +23,8 @@ builder.Services.AddSwaggerGen();
 
 var sqlConnectionString = builder.Configuration.GetValue<string>("SqlConnectionString");
 var sqlConnectionStringFound = !string.IsNullOrWhiteSpace(sqlConnectionString);
-    builder.Services.AddTransient<EnviromentRepository, EnviromentRepository>(o => new EnviromentRepository(sqlConnectionString));
-    builder.Services.AddTransient<Object2DRepository, Object2DRepository>(o => new Object2DRepository(sqlConnectionString));
+    builder.Services.AddTransient<IEnviromentRepository>(o => new EnviromentRepository(sqlConnectionString));
+    builder.Services.AddTransient<IObjectRepository>(o => new Object2DRepository(sqlConnectionString));
 builder.Services.AddAuthorization();
 builder.Services
     .AddIdentityApiEndpoints<IdentityUser>(options =>
